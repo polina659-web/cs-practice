@@ -47,3 +47,61 @@ print("Первые две строки без первого столбца:\n"
 print("Центральный фрагмент 2x2:\n", temperatures[:2, 1:3])
 print("Форма центрального фрагмента:", temperatures[:2, 1:3].shape)
 
+# =====================
+# Задание 4. Прямоугольные срезы
+# =====================
+matrix = np.arange(1, 26).reshape(5, 5)
+
+print("Первые три строки:\n", matrix[:3])
+print("Форма:", matrix[:3].shape)
+print("Последние две строки:\n", matrix[3:])
+print("Форма:", matrix[3:].shape)
+print("Первые два столбца:\n", matrix[:, :2])
+print("Форма:", matrix[:, :2].shape)
+print("Строки 1-3, столбцы 2-4:\n", matrix[1:4, 2:5])
+print("Форма:", matrix[1:4, 2:5].shape)
+print("Угловой блок 2x2 справа внизу:\n", matrix[3:, 3:])
+print("Форма:", matrix[3:, 3:].shape)
+
+# =====================
+# Задание 5. Изменение массива с помощью срезов
+# =====================
+vector = np.array([10, 20, 30, 40, 50])
+vector[1:4] = 0
+
+small_matrix = np.arange(1, 10).reshape(3, 3)
+small_matrix[0, :] = -1
+small_matrix[1:, 1:] = 9
+
+# .copy() нужна, потому что обычное присваивание changed_hours = hours
+# не создаёт новый массив: обе переменные смотрят на одни и те же данные,
+# и любое изменение через срез испортило бы исходный hours.
+changed_hours = hours.copy()
+changed_hours[2:5] = 99    # элементы с индексами 2-4 -> 99
+changed_hours[::2] = -1    # каждый второй элемент, начиная с первого, -> -1
+print("changed_hours:", changed_hours)
+print("Исходный hours:", hours)
+
+changed_matrix = matrix.copy()
+changed_matrix[1, :] = 0        # вся вторая строка -> нули
+changed_matrix[:, -1] = -1      # последний столбец -> -1
+changed_matrix[1:4, 1:4] = 100  # центральный блок 3x3 (индексы 1-3) -> 100
+print("Изменённая матрица:\n", changed_matrix)
+print("Исходная матрица:\n", matrix)
+
+# =====================
+# Задание 6. Изменение формы
+# =====================
+numbers = np.arange(12)
+table = numbers.reshape(3, 4)
+transposed = table.T
+
+print("Форма numbers:", numbers.shape)
+print("Форма table:", table.shape)
+print("Форма transposed:", transposed.shape)
+print("table:\n", table)
+print("transposed:\n", transposed)
+
+# reshape(3, 4) работает, потому что 3 * 4 = 12 — столько же элементов,
+# сколько в numbers. reshape(5, 3) требует 5 * 3 = 15 элементов, а у нас
+# их только 12, поэтому NumPy выдаёт ValueError.
